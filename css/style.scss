@@ -22,13 +22,28 @@
     font-size: 25px;
     font-family: Arial, Helvetica, sans-serif;
     border-radius: 5px;
+    border: 0;
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding-left: 15px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
   button {
+    border-radius: 5px;
+    transition: all 600ms;
     width: 21%;
     height: 51px;
     font-size: 25px;
     margin-left: 5px;
-    background-color: lightblue;
+    background-color: blue;
+    color: white;
+    border: 0;
+    outline: none;
+    &:hover {
+      opacity: 0.5;
+    }
   }
   h1 {
     font-family: Arial, Helvetica, sans-serif;
@@ -36,5 +51,70 @@
     font-weight: 600;
     text-transform: uppercase;
     margin: 21px 0px;
+  }
+}
+ul {
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  li {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+    transition: 300ms;
+    &:hover {
+      color: darkslategray;
+    }
+    a#heart {
+      margin-right: 10px;
+      width: 50px;
+      height: 50px;
+      position: relative;
+      &::after {
+        @include pseudo($content: "\e801");
+        top: 12px;
+        left: 41px;
+        font-family: $icons;
+        font-size: 20px;
+      }
+      &.active {
+        &::after {
+          content: "\e802";
+          color: #f00;
+        }
+      }
+    }
+  }
+}
+#savedArticle {
+  ul {
+    li {
+      display: flex;
+      flex-wrap: wrap;
+      h3 {
+        margin-right: 10px;
+        font-size: 30px;
+        font-family: sans-serif;
+      }
+      a {
+        position: relative;
+        width: 30px;
+        height: 30px;
+        &::after {
+          @include pseudo($content: "\e803");
+          top: 50%;
+          left: 50%;
+          margin-top: -10px;
+          margin-left: -10px;
+          text-align: center;
+          font-family: $icons;
+          font-size: 20px;
+        }
+        &:hover::after {
+          color: red;
+        }
+      }
+    }
   }
 }
