@@ -29,6 +29,7 @@ export default class SearchArticle {
   }
   getUrl(e) {
     e.preventDefault();
+    this.holder.innerHTML = "";
     const value = document.getElementById("input").value;
     const url = `https://nieuws.vtm.be/feed/articles/solr?format=json&query=${value}`;
     axios
