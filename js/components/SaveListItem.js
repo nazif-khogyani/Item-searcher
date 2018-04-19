@@ -1,4 +1,5 @@
 import axios from "axios";
+import PerfectScrollbar from "perfect-scrollbar";
 export default class SaveListItem {
   constructor(id, liHolder, mySavedArray, firebaseRef) {
     this.id = id;
@@ -23,8 +24,9 @@ export default class SaveListItem {
   init() {
     let liHtml = "";
     liHtml += `<li data-id="${this.article.id}" id="save-${this.article.id}">
-      <h3>${this.article.title}</h3>
       <img src="${this.article.image.thumb}"></img>
+      <h3>${this.article.title}</h3>
+      
     <a href="" id="remove"></a></li>`;
     this.liHolder.insertAdjacentHTML("beforeend", liHtml);
   }

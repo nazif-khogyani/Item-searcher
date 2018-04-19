@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as firebase from "firebase";
 import SaveListItem from "./SaveListItem";
+import PerfectScrollbar from "perfect-scrollbar";
 const popupS = require("popups");
 export default class SavedArticle {
   constructor(mySavedArray, articleHolder, firebaseRef) {
@@ -21,6 +22,8 @@ export default class SavedArticle {
     html += `<ul id="ulHolder"></ul>`;
     this.articleHolder.insertAdjacentHTML("afterbegin", html);
     this.ulHolder = document.getElementById("ulHolder");
+    const ps = new PerfectScrollbar(this.ulHolder);
+    ps.update();
   }
 
   setUpEvents() {
@@ -32,23 +35,40 @@ export default class SavedArticle {
       let id = e.target.parentElement.dataset.id;
       let position = this.mySavedArray.indexOf(id);
       this.mySavedArray.splice(position, 1);
+      document.querySelector(`#searchItem-${id} a`).classList.remove("active");
       e.target.parentElement.remove();
+
       this.firebaseRef.set(this.mySavedArray);
     }
-    if (e.target.nodeName == "H3" || e.target.nodeName == "IMG") {
-      this.liId = e.target.parentElement.dataset.id;
+    if (
+      e.target.nodeName == "H3" ||
+      e.target.nodeName == "IMG" ||
+      e.target.nodeName == "LI"
+    ) {
+      if (e.target.nodeName == "LI") {
+        this.liId = e.target.dataset.id;
+      } else {
+        this.liId = e.target.parentElement.dataset.id;
+      }
+
       axios
-        .get("https://nieuws.vtm.be/feed/articles?format=json&ids=" + this.liId)
+        .get(
+          "https://nieuws.vtm.be/feed/articles?format=json&fields=html&ids=" +
+            this.liId
+        )
         .then(response => {
-          this.articl = response.data.response.items[0];
+          this.items = response.data.response.items[0];
         })
         .catch(function(error) {
           // console.log(error);
         });
       popupS.modal({
-        content: `<h3>${this.articl.title}</h3>
-      <img src="${this.articl.image.thumb}"></img>`
+        content: `<h2>${this.items.title}</h2>
+      <img src="${this.items.image.large}"></img>
+      <p>${this.items.text_html}</p>`
       });
+      const ps = new PerfectScrollbar(popusp.content);
+      ps.update();
     }
   }
   getDB() {

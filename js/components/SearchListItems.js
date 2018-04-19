@@ -16,8 +16,8 @@ export default class SearchListItems {
     let searchLiHtml = `<li id="searchItem-${
       this.item.fields.entity_id
     }" data-id="${this.item.fields.entity_id}">
-    <h2>${this.item.title}</h2>
     <img src="${this.item.fields.image_path}"></img>
+    <h2>${this.item.title}</h2>
     <a href="#" id="heart"></a>
     </li>`;
     this.holder.insertAdjacentHTML("beforeend", searchLiHtml);
@@ -33,7 +33,6 @@ export default class SearchListItems {
   }
   events() {
     this.liId.addEventListener("click", this.handleClick.bind(this));
-    this.holder.addEventListener("click", this.handlePopups.bind(this));
   }
   handleClick(e) {
     e.preventDefault();
@@ -64,25 +63,6 @@ export default class SearchListItems {
     }
     // push to array
     // firebase set(array)
-  }
-  handlePopups(e) {
-    e.preventDefault();
-    if (e.target.nodeName == "H2" || e.target.nodeName == "IMG") {
-      const value = document.getElementById("input").value;
-      const url = `https://nieuws.vtm.be/feed/articles/solr?format=json&query=${value}`;
-      axios
-        .get(url)
-        .then(response => {
-          this.items = response.data.response.items[0];
-        })
-        .catch(function(error) {
-          // console.log(error);
-        });
-      popupS.modal({
-        content: `<h2>${this.items.title}</h2>
-      <img src="${this.items.fields.image_path}"></img>`
-      });
-    }
   }
   inArray(needle, heystack) {
     let length = heystack.length;
