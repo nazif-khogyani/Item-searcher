@@ -33,9 +33,19 @@ export default class SavedArticle {
     e.preventDefault();
     if (e.target.nodeName == "A") {
       let id = e.target.parentElement.dataset.id;
+      // if (
+      //   document
+      //     .querySelector(`#searchItem-${id} a`)
+      //     .classList.contains("active")
+      // ) {
+      //   document
+      //     .querySelector(`#searchItem-${id} a`)
+      //     .classList.remove("active");
+      // }
+
       let position = this.mySavedArray.indexOf(id);
       this.mySavedArray.splice(position, 1);
-      document.querySelector(`#searchItem-${id} a`).classList.remove("active");
+
       e.target.parentElement.remove();
 
       this.firebaseRef.set(this.mySavedArray);
